@@ -1,0 +1,50 @@
+Como Usar o Plotly Express (Exemplos Práticos)
+1. Instalação
+pip install plotly
+
+2. Gráfico de Linha Simples
+import plotly.express as px
+
+df = px.data.gapminder().query("country == 'Brazil'")
+fig = px.line(df, x="year", y="gdpPercap", title="PIB per Capita do Brasil")
+fig.show()  # Abre no navegador ou no Jupyter Notebook
+
+Substitua fig.show() por st.plotly_chart(fig) se estiver usando Streamlit!
+
+3. Gráfico de Barras
+df = px.data.tips()  # Dados de exemplo (gorjetas)
+fig = px.bar(df, x="day", y="total_bill", color="sex", barmode="group")
+fig.show()
+
+4. Scatter Plot (3D e Colorido)
+df = px.data.iris()  # Dataset Íris
+fig = px.scatter_3d(df, x="sepal_length", y="petal_length", z="petal_width", color="species")
+fig.show()
+
+5. Personalização Avançada
+fig = px.scatter(
+    df, 
+    x="gdpPercap", 
+    y="lifeExp", 
+    size="pop", 
+    color="continent",
+    hover_name="country",
+    log_x=True,
+    title="Expectativa de Vida vs PIB (Log Scale)"
+)
+fig.update_layout(font_size=12)  # Ajusta tamanho da fonte
+fig.show()
+
+Recursos Úteis
+🔹 Hover Data: Passe o mouse sobre os pontos para ver detalhes.
+🔹 Zoom e Seleção: Clique e arraste para ampliar ou selecionar regiões.
+🔹 Botões de Ação: Exportar para PNG, zoom padrão, resetar vista.
+
+Integração com Streamlit
+No Streamlit, use st.plotly_chart() para exibir gráficos:
+import streamlit as st
+import plotly.express as px
+
+df = px.data.gapminder()
+fig = px.scatter(df, x="gdpPercap", y="lifeExp", size="pop", color="continent")
+st.plotly_chart(fig, use_container_width=True)  # Ajusta ao tamanho do container

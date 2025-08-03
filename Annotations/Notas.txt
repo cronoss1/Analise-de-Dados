@@ -1,0 +1,8 @@
+Library - streamlit para construção de dashboards
+import streamlit as st
+
+library - pandas para manipulação de dados no python (ler arquivos, tratar).
+import pandas as pd
+
+plotly.express onde vai ser construído os gráficos.
+import plotly,express as px

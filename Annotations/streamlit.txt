@@ -1,0 +1,64 @@
+Como o Streamlit Funciona?
+O Streamlit transforma scripts Python em aplicativos web automaticamente. Tudo o que você faz em Python (carregar dados, criar gráficos, adicionar controles) vira um app interativo.
+
+Principais Componentes
+Função	            O que Faz?	                        Exemplo de Código
+st.title()	        Adiciona um título ao app	        st.title("Meu Dashboard")
+st.write()	        Exibe texto, DataFrames, gráficos	st.write(df)
+st.dataframe()	    Mostra um DataFrame interativo	    st.dataframe(df)
+st.plotly_chart()	Plota gráficos do Plotly	        st.plotly_chart(fig)
+st.slider()	        Cria um slider para inputs	        st.slider("Idade", 0, 100)
+st.button()	        Adiciona um botão clicável	        if st.button("Calcular"): ...
+
+Exemplo Prático: Um App Simples com Streamlit
+Vamos criar um app que:
+
+Carrega um DataFrame.
+
+Filtra dados com um slider.
+
+Plota um gráfico interativo.
+
+Passo 1: Instale o Streamlit
+pip install streamlit
+
+Passo 2: Crie um arquivo app.py
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+
+# Título do app
+st.title("📊 Análise de Vendas")
+
+# Carrega os dados
+df = pd.DataFrame({
+    "Mês": ["Jan", "Fev", "Mar", "Abr"],
+    "Vendas": [100, 200, 150, 300]
+})
+
+# Slider para filtrar vendas mínimas
+min_vendas = st.slider("Filtrar vendas mínimas:", 0, 300, 100)
+
+# Filtra o DataFrame
+df_filtrado = df[df["Vendas"] >= min_vendas]
+
+# Mostra o DataFrame
+st.write("📌 Dados filtrados:", df_filtrado)
+
+# Gráfico interativo
+fig = px.bar(df_filtrado, x="Mês", y="Vendas", title="Vendas por Mês")
+st.plotly_chart(fig)
+
+Passo 3: Execute o App
+streamlit run app.py
+
+
+Exemplo com cache e upload de arquivo:
+@st.cache  # Armazena dados em cache para performance
+def carregar_dados(arquivo):
+    return pd.read_csv(arquivo)
+
+arquivo = st.file_uploader("Envie seu CSV", type="csv")
+if arquivo:
+    df = carregar_dados(arquivo)
+    st.dataframe(df)

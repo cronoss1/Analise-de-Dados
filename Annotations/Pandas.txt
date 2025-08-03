@@ -1,0 +1,94 @@
+Principais Estruturas do Pandas
+1-Series
+
+Estrutura unidimensional (como uma coluna em uma tabela).
+
+Pode armazenar diferentes tipos de dados (números, strings, booleanos, etc.).
+
+Exemplo:
+import pandas as pd
+dados = pd.Series([10, 20, 30, 40])
+print(dados)
+
+Saída:
+0    10
+1    20
+2    30
+3    40
+dtype: int64
+
+2-DataFrame
+
+Estrutura bidimensional (tabela com linhas e colunas).
+
+Cada coluna é uma Series.
+
+Exemplo:
+dados = {
+    "Nome": ["Ana", "João", "Maria"],
+    "Idade": [25, 30, 28],
+    "Cidade": ["SP", "RJ", "BH"]
+}
+df = pd.DataFrame(dados)
+print(df)
+
+Saída:
+   Nome  Idade Cidade
+0   Ana     25     SP
+1  João     30     RJ
+2 Maria     28     BH
+
+Principais Funcionalidades do Pandas
+1. Leitura e Escrita de Dados
+Lê dados de CSV, Excel, SQL, JSON e outros formatos.
+
+Exemplo (lendo um CSV):
+df = pd.read_csv("dados.csv")  # Carrega um arquivo CSV
+df.to_excel("saida.xlsx")     # Salva em Excel
+
+2. Seleção e Filtro de Dados
+# Seleciona uma coluna (retorna uma Series)
+df["Nome"]
+
+# Seleciona múltiplas colunas
+df[["Nome", "Idade"]]
+
+# Filtra linhas (ex: idades maiores que 25)
+df[df["Idade"] > 25]
+
+3. Manipulação de Dados
+Adicionar/Remover Colunas:
+df["Salário"] = [5000, 6000, 7000]  # Adiciona coluna
+df.drop("Cidade", axis=1, inplace=True)  # Remove coluna
+
+Ordenação:
+df.sort_values("Idade", ascending=False)  # Ordena por idade (decrescente)
+
+Agregação (média, soma, contagem):
+df["Idade"].mean()  # Média de idades
+df.groupby("Cidade")["Idade"].sum()  # Soma de idades por cidade
+
+4. Tratamento de Dados Faltantes (NaN)
+df.dropna()      # Remove linhas com valores faltantes
+df.fillna(0)     # Substitui NaN por 0
+
+5. Operações Estatísticas e Descritivas
+df.describe()  # Mostra estatísticas (média, desvio padrão, mínimo, máximo)
+df.corr()      # Matriz de correlação
+
+
+Exemplo Completo: Análise de Dados com Pandas
+
+import pandas as pd
+
+# Carrega dados de um CSV
+df = pd.read_csv("vendas.csv")
+
+# Filtra vendas acima de R$ 1000
+vendas_altas = df[df["Valor"] > 1000]
+
+# Agrupa por cliente e soma os valores
+total_por_cliente = vendas_altas.groupby("Cliente")["Valor"].sum()
+
+# Salva resultado em um novo arquivo
+total_por_cliente.to_csv("total_clientes.csv")
